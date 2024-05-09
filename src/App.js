@@ -1,24 +1,70 @@
-import logo from './logo.svg';
-import './App.css';
-
+import {
+  BrowserRouter as Router,
+  Route,
+  Routes,
+  useLocation,
+  BrowserRouter,
+  Navigate,
+} from "react-router-dom";
+import { privateRoutes, publicRoutes, routes } from "./routes";
+import { useEffect } from "react";
+import { Login } from "./modules/login";
+import "primereact/resources/themes/lara-light-cyan/theme.css";
+import "primeicons/primeicons.css";
+import "/node_modules/primeflex/primeflex.css";
 function App() {
+  const NavigationScroll = ({ children }) => {
+    const location = useLocation();
+    const { pathname } = location;
+    useEffect(() => {
+      window.scrollTo({
+        top: 0,
+        left: 0,
+        behavior: "smooth",
+      });
+    }, [pathname]);
+
+    return children || null;
+  };
+  const token = localStorage.getItem("token1");
+  console.log(token);
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <Router>
+      <NavigationScroll>
+        <Routes>
+          {[...publicRoutes].map((routes, index) => {
+            const Page = routes.component;
+            return (
+              <>
+                {token ? (
+                  <Route
+                    key={index}
+                    path={routes.path}
+                    element={
+                      <>
+                        <Page />
+                      </>
+                    }
+                  />
+                ) : (
+                  <>
+                    <Route
+                      key={index}
+                      path={routes.path}
+                      element={
+                        <>
+                          <Login />
+                        </>
+                      }
+                    />
+                  </>
+                )}
+              </>
+            );
+          })}
+        </Routes>
+      </NavigationScroll>
+    </Router>
   );
 }
 
