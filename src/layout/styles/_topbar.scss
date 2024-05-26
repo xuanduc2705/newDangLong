@@ -1,0 +1,158 @@
+.layout-topbar {
+    position: fixed;
+    height: 3.5rem;
+    z-index: 997;
+    left: 0;
+    top: 0;
+    width: 100%;
+    padding: 0 2rem;
+    background-color: rgb(60, 141, 188);
+    transition: left $transitionDuration;
+    display: flex;
+    align-items: center;
+    box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.16), 0 2px 10px 0 rgba(0, 0, 0, 0.12);
+
+    .layout-topbar-logo {
+        display: flex;
+        align-items: center;
+        color: var(--surface-900);
+        font-size: 1.5rem;
+        font-weight: 500;
+        width: 160px;
+        border-radius: 12px;
+
+        img {
+            height: 2.5rem;
+            margin-right: .5rem;
+        }
+
+        &:focus {
+            @include focused();
+        }
+    }
+
+    .layout-topbar-button {
+        display: inline-flex;
+        justify-content: center;
+        align-items: center;
+        position: relative;
+        color: aliceblue;
+        border-radius: 50%;
+        width: 40px;
+        height: 40px;
+        cursor: pointer;
+        transition: background-color $transitionDuration;
+
+        &:hover {
+            color: rgb(60, 141, 188);
+            background-color: var(--surface-hover);
+        }
+
+        &:focus {
+            @include focused();
+        }
+
+        i {
+            font-size: 1.5rem;
+        }
+
+        span {
+            font-size: 1rem;
+        }
+
+        .avatar {
+            background-color: var(--surface-hover);
+            border-radius: 50%;
+            height: 40px;
+            width: 40px;
+            padding: 4px;
+        }
+    }
+
+    .layout-menu-button {
+        margin-left: 2rem;
+    }
+
+    .layout-topbar-menu-button {
+        display: none;
+
+        i {
+            font-size: 1.25rem;
+        }
+    }
+
+    .layout-topbar-menu {
+        margin: 0 0 0 auto;
+        padding: 0;
+        list-style: none;
+        display: flex;
+        align-items: center;
+
+        .layout-topbar-button {
+            position: relative;
+
+            .menu-topbar {
+                position: absolute;
+                width: 200px;
+                right: 0;
+                top: 52px;
+                background-color: white;
+                display: flex;
+                flex-direction: column;
+                padding: 0.5rem;
+                box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.16), 0 2px 10px 0 rgba(0, 0, 0, 0.12);
+
+                .p-link {
+                    padding: 0.75rem 0.5rem;
+                    color: #495057;
+                }
+
+                .p-link:hover {
+                    background-color: var(--surface-hover);
+                    ;
+                }
+
+                hr {
+                    margin: 0;
+                }
+            }
+        }
+    }
+}
+
+@media (max-width: 991px) {
+    .layout-topbar {
+        justify-content: space-between;
+
+        .layout-topbar-logo {
+            width: auto;
+            order: 2;
+        }
+
+        .layout-menu-button {
+            margin-left: 0;
+            order: 1;
+        }
+
+        .layout-topbar-menu-button {
+            display: inline-flex;
+            margin-left: 0;
+            order: 3;
+
+        }
+
+        .layout-topbar-menu {
+            order: 3;
+            display: block;
+            margin: 0;
+
+            span {
+                display: none;
+            }
+
+            &.layout-topbar-menu-mobile-active {
+                display: block
+            }
+        }
+    }
+}

@@ -1,29 +1,49 @@
 import { Button } from "primereact/button";
-import { useNavigate } from "react-router-dom";
+import Banner from "./Banner";
+import Navbar from "./navbar";
+import { Link } from "react-router-dom";
+import { ChartTest, LineDemo, RadarDemo } from "./chart";
 
 const Home = () => {
-  const navigate = useNavigate();
-  const handleLogout = () => {
-    localStorage.removeItem("token1");
-    navigate("/login");
-  };
   return (
-    <div
-      style={{
-        backgroundImage:
-          'url("https://picstatio.com/large/gu2kkg/sci-fi-art-fantasy-land-wallpaper.jpg")',
-        backgroundSize: "cover",
-        backgroundPosition: "center",
-        width: "100vw",
-        height: "100vh",
-      }}
-    >
-      <div className="flex flex-row-reverse	">
-        <Button className="m-4" onClick={handleLogout}>
-          Logout
-        </Button>
+    <>
+      {/* <div className="mb-5">
+        <Navbar />
       </div>
-    </div>
+      <div className="flex flex-column justify-center">
+        <Banner />
+        <Link
+          to={"/divide"}
+          className="mx-auto  "
+          style={{ textDecoration: "none", color: "black" }}
+        >
+          <div
+            class="scalein animation-ease-out animation-duration-200 animation-iteration-infinite flex align-items-center justify-content-center
+        font-bold bg-primary border-round m-2 px-5 py-3"
+          >
+            CLICK HERE
+          </div>
+        </Link>
+      </div> */}
+      <div className="flex flex-column">
+        <div className="grid">
+          <div className="col-6">
+            <ChartTest color1={"red"} color2={"blue"} />
+          </div>
+          <div className="col-6">
+            <ChartTest color1={"green"} color2={"orange"} />
+          </div>
+        </div>
+        <div className="grid">
+          <div className="col-6">
+            <LineDemo />
+          </div>
+          <div className="col-6">
+            <RadarDemo />
+          </div>
+        </div>
+      </div>
+    </>
   );
 };
 export default Home;

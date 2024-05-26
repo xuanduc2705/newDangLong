@@ -1,0 +1,28 @@
+.layout-main-container {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  justify-content: space-between;
+  padding: 4rem 0 0 0;
+  transition: margin-left $transitionDuration;
+  margin-left: 280px;
+}
+
+.layout-main {
+  flex: 1 1 auto;
+}
+
+.hide-sidebar {
+  margin-left: 0;
+}
+
+.layout-mask {
+  background-color: black;
+  opacity: 0.75;
+  z-index: 50000;
+  height: 100vh;
+  width: 100vw;
+  position: relative;
+  top: 0;
+  left: 0;
+}

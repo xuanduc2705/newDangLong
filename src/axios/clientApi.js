@@ -1,27 +1,19 @@
-import axios from "axios";
-
-export const clientApi = axios.create({
-  baseURL: "https://lombeo-api-authorize.azurewebsites.net",
-  timeout: 10000,
-});
-
-clientApi.interceptors.request.use(
-  (config) => {
-    const token = localStorage.getItem("token1");
-    if (token) {
-      config.headers["Authorization"] = `Bearer ${token}`;
-    }
-    return config;
-  },
-
-  (error) => {
-    return Promise.reject(error);
+const getClientId = () => {
+  let clientId = localStorage.getItem("clientId");
+  let result = "";
+  const characters =
+    "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+  const charactersLength = characters.length;
+  let counter = 0;
+  while (counter < 10) {
+    result += characters.charAt(Math.floor(Math.random() * charactersLength));
+    counter += 1;
   }
-);
+  if (!clientId) {
+    clientId = `web_bdc_v2_${result}_${new Date().getTime()}`;
+    localStorage.setItem("clientId", clientId);
+  }
+  return clientId;
+};
 
-clientApi.interceptors.response.use(
-  async function (res) {
-    return res.data;
-  },
-  async function (error) {}
-);
+export const clientId = getClientId();

@@ -36,3 +36,50 @@
     transform: rotate(360deg);
   }
 }
+.p-menubar {
+  border: none;
+  background: transparent;
+}
+.p-menubar-root-list {
+  margin: 0 auto;
+}
+.p-menuitem-text {
+  font-size: larger;
+  font-weight: 700;
+}
+.selected_user {
+  cursor: pointer;
+}
+
+.card.message_chat {
+  padding: 1rem;
+}
+.input_type {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  z-index: 10;
+}
+.col-9.info_message {
+  padding: 0;
+}
+.selected_user_clicked {
+  cursor: pointer;
+  background-color: lightgrey;
+}
+.p-tabview-title {
+  color: #4c5563;
+}
+.message_noti {
+  width: 25px;
+  aspect-ratio: 1;
+  background-color: red;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 50%;
+  color: white;
+  position: absolute;
+  right: 7px;
+  top: 7px;
+}
