@@ -27,6 +27,7 @@ export const RenderHeader = ({
   title,
   setVisibleImport = () => {},
   basePermissions,
+  handleUpdateData,
 }) => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -215,6 +216,18 @@ export const RenderHeader = ({
             type="button"
           />
         )}
+        {basePermissions.includes("updatedata") && (
+          <Button
+            // disabled={!route || !permission.includes(route + "/export")}
+            loading={loading1}
+            onClick={handleUpdateData}
+            label="Cập nhật dữ liệu"
+            size="small"
+            severity="success"
+            raised
+            type="button"
+          />
+        )}
         {moreOptions &&
           moreOptions[0] &&
           moreOptions.map((ops, index) => {
@@ -282,6 +295,7 @@ export const DataTablez = memo((props) => {
     headerStyle,
     styleColumn,
     rowsPerPageOptions,
+    handleUpdateData,
     checkStatus = "status",
     ...prop
   } = props;
@@ -363,6 +377,7 @@ export const DataTablez = memo((props) => {
           title,
           setVisibleImport,
           basePermissions,
+          handleUpdateData,
         })
       }
       first={params.first}

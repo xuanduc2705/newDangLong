@@ -173,18 +173,18 @@ const AppSidebar = ({ setVisible }) => {
               name: "Tương tác",
               icon: "pi pi-comments",
               children: [
-                // {
-                //   name: "Nhắn tin",
-                //   route: "/message",
-                //   badge: list_chat
-                //     ?.map(
-                //       (e) =>
-                //         e?.message_count -
-                //         list_count?.filter((c_e) => c_e?.chat_id == e?.id)?.[0]
-                //           ?.last_count
-                //     )
-                //     ?.reduce((sum, value) => sum + value, 0),
-                // },
+                {
+                  name: "Nhắn tin",
+                  route: "/message",
+                  badge: list_chat
+                    ?.map(
+                      (e) =>
+                        e?.message_count -
+                        list_count?.filter((c_e) => c_e?.chat_id == e?.id)?.[0]
+                          ?.last_count
+                    )
+                    ?.reduce((sum, value) => sum + value, 0),
+                },
               ],
             },
           ],
