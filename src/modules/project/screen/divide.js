@@ -2,7 +2,11 @@ import { useState } from "react";
 import { useCountListLead, useListDepartment, useListLead } from "../utils";
 import { useGetParams } from "../../../hooks/useGetParams";
 import { Columnz, DataTablez } from "@/components/data_table";
-import { HeaderListForm } from "@/components/data_table/FormList";
+import {
+  Dropdownz,
+  GridForm,
+  HeaderListForm,
+} from "@/components/data_table/FormList";
 import { setToast } from "@/redux/features";
 import { listToast } from "@/constants";
 import { useDispatch, useSelector } from "react-redux";
@@ -10,16 +14,45 @@ import { ConfirmDialog, confirmDialog } from "primereact/confirmdialog";
 import DivideDialog from "./DivideDialog";
 import { updatedata } from "../api";
 import SelectDay from "./SelectDay";
+import { useListProject } from "@/layout/utils";
+const Header = ({ setParams, setFilter, filter }) => {
+  const data = useListProject();
+  const handleNodeChange = (e) => {
+    setFilter({ project_id: e.value });
+  };
+  return (
+    <GridForm
+      setParams={setParams}
+      filter={filter}
+      setFilter={setFilter}
+      className="lg:col-9 mb-4"
+    >
+      <Dropdownz
+        value={filter?.project_id}
+        onChange={(e) => handleNodeChange(e)}
+        options={data}
+        className="mt-2 col-4"
+        placeholder="Chọn dự án"
+        optionLabel="name"
+        optionValue="project_id"
+        filter
+        clearIcon={false}
+        style={{ lineHeight: "30px" }}
+      ></Dropdownz>
+    </GridForm>
+  );
+};
 const Divide = () => {
   const initParam = useGetParams();
   const [params, setParams] = useState(initParam);
+  const [filter, setFilter] = useState();
   const dispatch = useDispatch();
-  const project = JSON.parse(localStorage.getItem("item"));
+  // const project = JSON.parse(localStorage.getItem("item"));
   const list_lead = useListLead({
     status: undefined,
     ...params,
     first: undefined,
-    project_id: project?.project_id,
+    project_id: filter?.project_id,
   });
   const list_department = useListDepartment({
     status: undefined,
@@ -55,7 +88,7 @@ const Divide = () => {
       status: undefined,
       ...params,
       first: undefined,
-      project_id: project?.project_id,
+      project_id: filter?.project_id,
     }) || 0;
   const [selectedProducts, setSelectedProducts] = useState([]);
   const formatDate = (value) => {
@@ -63,66 +96,56 @@ const Divide = () => {
     return ` ${date?.[2] + "-" + date?.[1] + "-" + date?.[0]}`;
   };
   async function handleUpdateData() {
-    // const date = new Date();
-    // const year = date.getFullYear();
-    // const month = String(date.getMonth() + 1).padStart(2, "0");
-    // const day = String(date.getDate()).padStart(2, "0");
-    // const formattedDate = `${year}/${month}/${day}`;
-    // await updatedata({ input_date: formattedDate });
-    // setParams((pre) => {
-    //   return { ...pre, render: !pre.render };
-    // });
     setDayVisible(true);
   }
   return (
     <div>
-      {project?.project_id && (
-        <div className="card mx-auto ">
-          <HeaderListForm title="Quản lý khách hàng" />
-          <ConfirmDialog />
-          {visible && (
-            <DivideDialog
-              visible={visible}
-              setVisible={setVisible}
-              selectedProducts={selectedProducts}
-              setParams={setParams}
-            />
-          )}
-          {dayVisible && (
-            <SelectDay
-              visible={dayVisible}
-              setVisible={setDayVisible}
-              setParams={setParams}
-            />
-          )}
-          <DataTablez
-            title="phê duyệt"
-            value={list_lead}
-            totalRecords={totalRecords}
-            params={params}
-            setVisibledDialog={setVisible}
-            setParams={setParams}
-            basePermissions={["detail", "updatedata"]}
-            headerInfo={{ items }}
+      <div className="card mx-auto ">
+        <HeaderListForm title="Quản lý khách hàng" />
+        <Header setParams={setParams} setFilter={setFilter} filter={filter} />
+        <ConfirmDialog />
+        {visible && (
+          <DivideDialog
+            visible={visible}
+            setVisible={setVisible}
             selectedProducts={selectedProducts}
-            setSelectedProducts={setSelectedProducts}
-            handleUpdateData={handleUpdateData}
-          >
-            <Columnz field="name" header="Họ tên" />
-            <Columnz field="email" header="Email" />
-            <Columnz field="phone" header="Số điện thoại" />
-            <Columnz field="source" header="Nguồn" />
-            <Columnz
-              body={(e) => ParseDepartment(e.department_id)}
-              header="Phòng ban"
-            />
-            <Columnz
-              body={(e) => formatDate(e.created_at)}
-              header="Thời gian tạo"
-            />
-          </DataTablez>
-        </div>
-      )}
+            setParams={setParams}
+          />
+        )}
+        {dayVisible && (
+          <SelectDay
+            visible={dayVisible}
+            setVisible={setDayVisible}
+            setParams={setParams}
+          />
+        )}
+        <DataTablez
+          title="phê duyệt"
+          value={list_lead}
+          totalRecords={totalRecords}
+          params={params}
+          setVisibledDialog={setVisible}
+          setParams={setParams}
+          basePermissions={["detail", "updatedata"]}
+          headerInfo={{ items }}
+          selectedProducts={selectedProducts}
+          setSelectedProducts={setSelectedProducts}
+          handleUpdateData={handleUpdateData}
+        >
+          <Columnz field="name" header="Họ tên" />
+          <Columnz field="email" header="Email" />
+          <Columnz field="phone" header="Số điện thoại" />
+          <Columnz field="source" header="Nguồn" />
+          <Columnz
+            body={(e) => ParseDepartment(e.department_id)}
+            header="Phòng ban"
+          />
+          <Columnz
+            body={(e) => formatDate(e.created_at)}
+            header="Thời gian tạo"
+          />
+        </DataTablez>
+      </div>
     </div>
   );
 };

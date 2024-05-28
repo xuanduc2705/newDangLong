@@ -3,6 +3,9 @@ import { Ripple } from "primereact/ripple";
 import { classNames } from "primereact/utils";
 import React, { useEffect, useState } from "react";
 import { CSSTransition } from "react-transition-group";
+import { useDispatch } from "react-redux";
+import { ToggleLoading, setItem, setToast } from "@/redux/features";
+import { listToast } from "@/constants";
 
 const MenuSidebar = (props) => {
   const location = useLocation();
@@ -15,7 +18,22 @@ const MenuSidebar = (props) => {
     activeMenu === key ||
     (activeMenu && activeMenu.startsWith(key + "-")) ||
     false;
-  const itemClick = (event) => {
+  const dispatch = useDispatch();
+  const itemClick = (event, e) => {
+    console.log(e);
+    if (e) {
+      localStorage.removeItem("item");
+      const obj = {
+        project_id: e.id,
+        name: e.name,
+        project_id_ad: e.project_id_ad,
+        access_token: e.access_token,
+      };
+      localStorage.setItem("item", JSON.stringify(obj));
+      dispatch(setToast({ ...listToast[0], detail: "Đổi dự án thành công!" }));
+      dispatch(setItem(obj));
+      dispatch(ToggleLoading(true));
+    }
     if (item.disabled) {
       event.preventDefault();
       return;
@@ -39,7 +57,6 @@ const MenuSidebar = (props) => {
     }
     if (isShow) setActiveMenu(key);
   }, []);
-
   const subMenu = item.children && item.visible !== false && (
     <CSSTransition
       timeout={{ enter: 1000, exit: 450 }}
@@ -48,7 +65,7 @@ const MenuSidebar = (props) => {
       key={item.name}
     >
       <ul>
-        {item.children.map((child, i) => {
+        {item?.children.map((child, i) => {
           return (
             <div className="flex flex-row" style={{ position: "relative" }}>
               <div style={{ width: "100%" }}>
@@ -96,7 +113,7 @@ const MenuSidebar = (props) => {
         <Link
           to={item.route}
           replace={item.replaceUrl}
-          onClick={(e) => itemClick(e)}
+          onClick={(e) => itemClick(e, item.project)}
           className={classNames(item.class, "p-ripple", {
             "active-item":
               location.pathname.includes(item.route + "/") ||

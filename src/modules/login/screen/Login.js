@@ -7,6 +7,7 @@ import { InputText } from "primereact/inputtext";
 import { useNavigate } from "react-router-dom";
 import { Password } from "primereact/password";
 import { LoginApi } from "../api";
+import banner from "@/image/269873-P5BLO3-619-01.jpg";
 const Login = () => {
   const header = (
     <div>
@@ -72,10 +73,7 @@ const Login = () => {
           className="col-7 flex"
           style={{ alignItems: "center", justifyContent: "center" }}
         >
-          <img
-            src="https://buildingcare.biz/wp-content/uploads/2023/09/building-care-logo-1.png"
-            className="w-8"
-          />
+          <img src={banner} className="w-10" />
         </div>
         <div
           className="col-5"

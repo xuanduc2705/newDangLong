@@ -103,6 +103,7 @@ export const GridForm = (props) => {
     array = [],
     onClear,
     hideParams,
+    hideButton,
   } = props;
   const location = useLocation();
 
@@ -199,29 +200,31 @@ export const GridForm = (props) => {
   return (
     <form onSubmit={handleSubmit} className="grid form-grid align-item-center">
       {props.children}
-      <div
-        className={classNames(
-          "mb-4 col-12 md:col-12 lg:col-3 flex justify-content-end gap-3",
-          className
-        )}
-      >
-        <Button
-          type="button"
-          raised
-          size="small"
-          severity="secondary"
-          label="Làm mới"
-          onClick={() => (onClear ? onClear() : handleClear())}
-        />
-        <Button
-          type="submit"
-          raised
-          size="small"
-          label="Lọc"
-          severity="info"
-          icon="pi pi-filter"
-        />
-      </div>
+      {!hideButton && (
+        <div
+          className={classNames(
+            "mb-4 col-12 md:col-12 lg:col-3 flex justify-content-end gap-3",
+            className
+          )}
+        >
+          <Button
+            type="button"
+            raised
+            size="small"
+            severity="secondary"
+            label="Làm mới"
+            onClick={() => (onClear ? onClear() : handleClear())}
+          />
+          <Button
+            type="submit"
+            raised
+            size="small"
+            label="Lọc"
+            severity="info"
+            icon="pi pi-filter"
+          />
+        </div>
+      )}
     </form>
   );
 };

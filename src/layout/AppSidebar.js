@@ -32,8 +32,6 @@ const handleTreeSelect = (data) => {
 };
 
 const HeaderSideBar = (props) => {
-  const navigate = useNavigate();
-  const dispatch = useDispatch();
   const { data, setVisible, item, setModel } = props;
   const [selectedNodeKey, setSelectedNodeKey] = useState(() => {
     return item.building_id
@@ -48,36 +46,12 @@ const HeaderSideBar = (props) => {
   }, [item]);
 
   useEffect(() => {}, []);
-  const handleNodeChange = (e) => {
-    localStorage.removeItem("item");
-    setSelectedNodeKey(e);
-    setInfos({ project_id: e.value });
-    const obj = {
-      project_id: e.value,
-      name: data
-        ?.filter((item) => item.project_id == e.value)
-        ?.map((e) => e.name)?.[0],
-      project_id_ad: data
-        ?.filter((item) => item.project_id == e.value)
-        ?.map((e) => e.project_id_ad)?.[0],
-      access_token: data
-        ?.filter((item) => item.project_id == e.value)
-        ?.map((e) => e.access_token)?.[0],
-    };
-    localStorage.setItem("item", JSON.stringify(obj));
-    dispatch(setToast({ ...listToast[0], detail: "Đổi dự án thành công!" }));
-    dispatch(setItem(obj));
-    dispatch(ToggleLoading(true));
-    navigate("/");
-  };
+
   const user_info = useUserInfo();
   return (
     <div className="header-sidebar">
-      <div className="w-full grid grid-form align-item-center mb-4 mt-4">
-        <div
-          className="col-4 text-right cursor-pointer"
-          onClick={() => setVisible(true)}
-        >
+      <div className="w-full grid grid-form align-item-center  mt-4">
+        <div className="col-4 text-right cursor-pointer">
           <img
             src={
               user_info?.data?.avatar
@@ -105,54 +79,21 @@ const HeaderSideBar = (props) => {
           </div>
         </div>
       </div>
-      <div className="w-11 text-color mx-auto mt-0 text-center">
-        <label htmlFor="company_project" className="font-bold text-white">
-          Dự án quản lý
-        </label>
-        <Dropdownz
-          value={infos?.project_id}
-          onChange={(e) => handleNodeChange(e)}
-          options={data}
-          className="w-full mt-2"
-          placeholder="Chọn dự án"
-          optionLabel="name"
-          optionValue="project_id"
-          filter
-          clearIcon={false}
-          style={{ lineHeight: "30px" }}
-        ></Dropdownz>
-      </div>
     </div>
   );
 };
 
 const AppSidebar = ({ setVisible }) => {
+  const dispatch = useDispatch();
   const myTool = useSelector((state) => state.myTool) || {};
   const item = useSelector((state) => state.item) || {};
-  const [model, setModel] = useState([
-    {
-      children: [
-        {
-          name: "Trang chủ",
-          icon: "pi pi-home",
-          children: [{ name: "Trang chủ", route: "/" }],
-        },
-      ],
-    },
-  ]);
   const [params, setParams] = useState({});
   const location = useLocation();
+  const [data, setData] = useState();
   const data_project = useListProject();
-  const project = JSON.parse(localStorage.getItem("item"));
-  let list_chat;
-  list_chat = useListMessage({
-    project_id: project?.project_id_ad,
-    token: project?.access_token,
-    status: undefined,
-  });
-  const list_count = useListCountMess({ status: undefined, ...params });
+  const [model, setModel] = useState();
   useEffect(() => {
-    if (project?.project_id) {
+    if (data_project && data_project?.[0]) {
       setModel([
         {
           children: [
@@ -164,34 +105,29 @@ const AppSidebar = ({ setVisible }) => {
             {
               name: "Quản lý dự án",
               icon: "pi pi-check-square",
-              children: [
-                { name: "Tổng quan dự án", route: "/project_overview" },
-                { name: "Quản lý khách hàng", route: "/divide" },
-              ],
+              children: [{ name: "Quản lý khách hàng", route: "/divide" }],
             },
             {
-              name: "Tương tác",
-              icon: "pi pi-comments",
-              children: [
-                {
-                  name: "Nhắn tin",
-                  route: "/message",
-                  badge: list_chat
-                    ?.map(
-                      (e) =>
-                        e?.message_count -
-                        list_count?.filter((c_e) => c_e?.chat_id == e?.id)?.[0]
-                          ?.last_count
-                    )
-                    ?.reduce((sum, value) => sum + value, 0),
-                },
-              ],
+              name: "Tổng quan dự án",
+              icon: "pi pi-address-book",
+              children: data_project?.map((e) => ({
+                name: e?.name,
+                route: "/project_overview",
+                project: e,
+              })),
             },
           ],
         },
       ]);
     }
-  }, [project?.project_id, list_chat]);
+  }, [data_project]);
+  const project = JSON.parse(localStorage.getItem("item"));
+  let list_chat;
+  list_chat = useListMessage({
+    project_id: project?.project_id_ad,
+    token: project?.access_token,
+    status: undefined,
+  });
   useEffect(() => {
     let title;
     const type = item.building_id ? "building" : "company";
@@ -218,11 +154,8 @@ const AppSidebar = ({ setVisible }) => {
         data={data_project}
         setModel={setModel}
       />
-      <ul
-        style={{ paddingBottom: "150px", paddingTop: "3vh" }}
-        className="layout-menu "
-      >
-        {model.map((item, i) => {
+      <ul className="layout-menu ">
+        {model?.map((item, i) => {
           return <MenuSidebar item={item} root={true} index={i} key={i} />;
         })}
       </ul>

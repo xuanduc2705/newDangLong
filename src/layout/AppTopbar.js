@@ -1,8 +1,7 @@
 import { listToast } from "@/constants";
 import { useGetParams } from "@/hooks";
 import { clearUserInfo, setToast } from "@/redux/features";
-import { Avatar } from "@/uiCore";
-import { Menu, MenuItem } from "@mui/material";
+import { Avatar, Menu, MenuItem } from "@mui/material";
 import { forwardRef, useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
@@ -69,7 +68,7 @@ const AppTopbar = (props, ref) => {
           <Avatar
             className="avatar"
             onClick={handleClick}
-            src={"/assets/img/profile.png"}
+            src="https://t4.ftcdn.net/jpg/02/29/75/83/360_F_229758328_7x8jwCwjtBMmC6rgFzLFhZoEpLobB6L8.jpg"
             alt="Ảnh đại diện"
             height="32px"
             width="32px"

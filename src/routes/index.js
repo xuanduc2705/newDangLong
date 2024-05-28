@@ -8,7 +8,7 @@ export const routes = [
   { path: "/", component: Home, layout: true },
   { path: "/home", component: Home, layout: true },
   { path: "/divide", component: Divide, layout: true },
-  { path: "/message", component: Message, layout: true },
+  // { path: "/message", component: Message, layout: true },
   { path: "/login", component: Login, public: true },
   { path: "/project_overview", component: ProjectOvervew, layout: true },
 ];
