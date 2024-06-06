@@ -205,7 +205,7 @@ export const ActionBody = ({
             icon="pi pi-eye"
             rounded
             outlined
-            disabled={!route || !permission.includes(route + "/detail/:id")}
+            disabled={!route}
             className={st ? "mr-1" : ""}
           />
         ) : (

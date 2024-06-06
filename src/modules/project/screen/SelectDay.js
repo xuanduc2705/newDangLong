@@ -9,19 +9,25 @@ import { phanBo, updatedata } from "../api";
 import { useParams } from "react-router-dom";
 
 const SelectDay = (props) => {
-  const { visible, setVisible, setParams } = props;
+  const { visible, setVisible, setParams, filter } = props;
   const [infos, setInfos] = useState({});
   const list_department = useListDepartment({
     status: undefined,
   });
+
   const handleData = () => {
     if (!infos?.input_date) return "Vui lòng chọn ngày";
+    if (!filter?.project_id_ad) return "Vui lòng chọn Page";
     const year = infos?.input_date.getFullYear();
     const month = String(infos?.input_date.getMonth() + 1).padStart(2, "0");
     const day = String(infos?.input_date.getDate()).padStart(2, "0");
     const formattedDate = `${year}/${month}/${day}`;
 
-    return { input_date: formattedDate };
+    return {
+      input_date: formattedDate,
+      project_id_ad: filter?.project_id_ad,
+      token: filter?.token,
+    };
   };
 
   return (

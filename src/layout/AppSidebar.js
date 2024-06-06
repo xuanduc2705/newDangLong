@@ -105,7 +105,16 @@ const AppSidebar = ({ setVisible }) => {
             {
               name: "Quản lý dự án",
               icon: "pi pi-check-square",
-              children: [{ name: "Quản lý khách hàng", route: "/divide" }],
+              children: [
+                {
+                  name: "Quản lý khách hàng",
+                  route: "/divide",
+                },
+                {
+                  name: "Quản lý Page",
+                  route: "/page_list",
+                },
+              ],
             },
             {
               name: "Tổng quan dự án",

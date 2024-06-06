@@ -50,7 +50,7 @@ const AppTopbar = (props, ref) => {
       <Link to="/" className="layout-topbar-logo">
         <div className="flex align-items-center">
           <span className="text-white text-lg">
-            <b>FACEBOOK</b> CARE
+            <b>TOOL</b> CARE
           </span>
         </div>
       </Link>

@@ -253,7 +253,7 @@ export const InputForm = (props) => {
         onChange={
           type === "phone" ? (e) => handleOnChange(e) : (e) => onChange(e)
         }
-        style={{ minHeight: "50px" }}
+        style={{ minHeight: "50px", lineHeight: "34px" }}
         {...inputprop}
       />
       {required && error && (
@@ -531,6 +531,7 @@ export const FormUpdate = (props) => {
     handleAfterCallApi,
     disabled,
     handleSubmit,
+    form_id,
     ...prop
   } = props;
   const permission = useSelector((state) => state.myTool).myTool;
@@ -640,15 +641,15 @@ export const FormUpdate = (props) => {
               size="small"
               icon="pi pi-save"
               severity="info"
-              disabled={
-                disabled
-                  ? disabled
-                  : route
-                  ? checkId
-                    ? !permission.includes(route + "/update")
-                    : !permission.includes(route + "/insert")
-                  : true && !setVisible
-              }
+              // disabled={
+              //   disabled
+              //     ? disabled
+              //     : route
+              //     ? checkId
+              //       ? !permission.includes(route + "/update")
+              //       : !permission.includes(route + "/insert")
+              //     : true && !setVisible
+              // }
               label={
                 setVisible ? "Xác nhận" : checkId ? "Cập nhật" : "Thêm mới"
               }
@@ -661,7 +662,7 @@ export const FormUpdate = (props) => {
 };
 
 export const FormUpdateDialog = (props) => {
-  const { title, visible, setVisible, onHide, ...prop } = props;
+  const { title, visible, setVisible, onHide, width, ...prop } = props;
   return (
     Boolean(visible) && (
       <Dialogz
@@ -669,7 +670,7 @@ export const FormUpdateDialog = (props) => {
         visible={Boolean(visible)}
         onHide={onHide}
         setVisible={setVisible}
-        width="1200px"
+        width={width ? width : "1400px"}
       >
         <FormUpdate
           setVisible={setVisible}

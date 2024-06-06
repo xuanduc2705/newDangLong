@@ -18,23 +18,28 @@ import { useListProject } from "@/layout/utils";
 const Header = ({ setParams, setFilter, filter }) => {
   const data = useListProject();
   const handleNodeChange = (e) => {
-    setFilter({ project_id: e.value });
+    setFilter({
+      project_id_ad: e.value,
+      token: data?.filter((item) => item?.project_id_ad == e.value)?.[0]
+        ?.access_token,
+    });
   };
   return (
     <GridForm
       setParams={setParams}
       filter={filter}
       setFilter={setFilter}
+      hideButton={true}
       className="lg:col-9 mb-4"
     >
       <Dropdownz
-        value={filter?.project_id}
+        value={filter?.project_id_ad}
         onChange={(e) => handleNodeChange(e)}
         options={data}
         className="mt-2 col-4"
-        placeholder="Chọn dự án"
+        placeholder="Chọn Page"
         optionLabel="name"
-        optionValue="project_id"
+        optionValue="project_id_ad"
         filter
         clearIcon={false}
         style={{ lineHeight: "30px" }}
@@ -52,7 +57,7 @@ const Divide = () => {
     status: undefined,
     ...params,
     first: undefined,
-    project_id: filter?.project_id,
+    project_id_ad: filter?.project_id_ad,
   });
   const list_department = useListDepartment({
     status: undefined,
@@ -88,7 +93,7 @@ const Divide = () => {
       status: undefined,
       ...params,
       first: undefined,
-      project_id: filter?.project_id,
+      project_id_ad: filter?.project_id_ad,
     }) || 0;
   const [selectedProducts, setSelectedProducts] = useState([]);
   const formatDate = (value) => {
@@ -117,6 +122,7 @@ const Divide = () => {
             visible={dayVisible}
             setVisible={setDayVisible}
             setParams={setParams}
+            filter={filter}
           />
         )}
         <DataTablez
