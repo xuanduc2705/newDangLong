@@ -68,7 +68,9 @@ export const Inputz = (props) => {
 export const Dropdownz = (props) => {
   const { optionLabel, optionValue, className, ...inputprop } = props;
   return (
-    <div className={classNames("col-12 md:col-6 lg:col-3", className)}>
+    <div
+      className={className ? className : classNames("col-12 md:col-6 lg:col-3")}
+    >
       <Dropdown
         filter
         className="w-full"
@@ -203,7 +205,7 @@ export const GridForm = (props) => {
       {!hideButton && (
         <div
           className={classNames(
-            "mb-4 col-12 md:col-12 lg:col-3 flex justify-content-end gap-3",
+            "mb-4 col-12 md:col-12 lg:col-3 flex justify-content-end gap-3 pt-3",
             className
           )}
         >

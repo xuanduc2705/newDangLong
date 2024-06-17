@@ -5,7 +5,7 @@ import {
 } from "@/components/data_table/FormUpdate";
 import { useListDepartment } from "../utils";
 import { useState } from "react";
-import { phanBo, updatedata } from "../api";
+import { UpdateInsertLeads, phanBo, updatedata } from "../api";
 import { useParams } from "react-router-dom";
 
 const SelectDay = (props) => {
@@ -17,7 +17,7 @@ const SelectDay = (props) => {
 
   const handleData = () => {
     if (!infos?.input_date) return "Vui lòng chọn ngày";
-    if (!filter?.project_id_ad) return "Vui lòng chọn Page";
+    // if (!filter?.project_id_ad) return "Vui lòng chọn Page";
     const year = infos?.input_date.getFullYear();
     const month = String(infos?.input_date.getMonth() + 1).padStart(2, "0");
     const day = String(infos?.input_date.getDate()).padStart(2, "0");
@@ -37,7 +37,7 @@ const SelectDay = (props) => {
       setVisible={setVisible}
       refreshObjects={[setInfos]}
       handleData={handleData}
-      actions={{ update: updatedata }}
+      actions={{ update: UpdateInsertLeads }}
       checkId={Number(visible)}
       setParams={setParams}
     >

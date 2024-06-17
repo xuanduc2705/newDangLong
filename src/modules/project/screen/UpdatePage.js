@@ -50,8 +50,9 @@ const UpdatePage = (props) => {
   };
   const list_form = useListAllForm({
     project_id_ad: data?.filter((e) => e?.id == id)?.[0]?.project_id_ad,
-    token: data?.filter((e) => e?.id == id)?.[0]?.access_token,
+    token: data?.filter((e) => e?.id == id)?.[0]?.short_token,
   });
+  console.log(data);
   useEffect(() => {
     if (data && data?.[0]) {
       const findData = data?.filter((e) => e?.id == id)?.[0];
@@ -69,16 +70,13 @@ const UpdatePage = (props) => {
     return formattedDate;
   };
   const [showDetail, setShowDetail] = useState(false);
-  const handleSelectDropdown = (e, item_id) => {
-    setInfos({ ...infos, category_id: e.target.value, form_id: item_id });
-  };
+
   const handleHide = () => {
     setDates({
       id_form: list_campaign?.filter((e) => e.id == id)?.[0]?.id_form,
     });
     setShowDetail(false);
   };
-  const data_form = useListFormPage({ page_id: infos?.page_id });
   return (
     <>
       {showDetail && (

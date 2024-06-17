@@ -11,6 +11,7 @@ import {
   getListAssignDate,
   listCampaign,
   getCheckId,
+  getPbIdByDate,
 } from "../api";
 
 export const useListLead = (params) => {
@@ -139,6 +140,17 @@ export const useGetCheckId = (params) => {
   const [data, setData] = useState([]);
   async function fetchData() {
     const response = await getCheckId({ status: 1, ...params });
+    if (response?.status) setData(response?.data);
+  }
+  useEffect(() => {
+    fetchData();
+  }, [JSON.stringify(params)]);
+  return data;
+};
+export const useGetPbIdByDate = (params) => {
+  const [data, setData] = useState([]);
+  async function fetchData() {
+    const response = await getPbIdByDate({ status: 1, ...params });
     if (response?.status) setData(response?.data);
   }
   useEffect(() => {

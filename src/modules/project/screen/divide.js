@@ -1,5 +1,10 @@
 import { useState } from "react";
-import { useCountListLead, useListDepartment, useListLead } from "../utils";
+import {
+  useCountListLead,
+  useGetPbIdByDate,
+  useListDepartment,
+  useListLead,
+} from "../utils";
 import { useGetParams } from "../../../hooks/useGetParams";
 import { Columnz, DataTablez } from "@/components/data_table";
 import {
@@ -9,14 +14,16 @@ import {
 } from "@/components/data_table/FormList";
 import { setToast } from "@/redux/features";
 import { listToast } from "@/constants";
-import { useDispatch, useSelector } from "react-redux";
-import { ConfirmDialog, confirmDialog } from "primereact/confirmdialog";
+import { useDispatch } from "react-redux";
+import { ConfirmDialog } from "primereact/confirmdialog";
 import DivideDialog from "./DivideDialog";
-import { updatedata } from "../api";
 import SelectDay from "./SelectDay";
 import { useListProject } from "@/layout/utils";
 const Header = ({ setParams, setFilter, filter }) => {
   const data = useListProject();
+  const list_department = useListDepartment({
+    status: undefined,
+  });
   const handleNodeChange = (e) => {
     setFilter({
       project_id_ad: e.value,
@@ -24,24 +31,36 @@ const Header = ({ setParams, setFilter, filter }) => {
         ?.access_token,
     });
   };
+  const handleDepartChange = (e) => {
+    setFilter({
+      ...filter,
+      department_id: e.value,
+    });
+  };
   return (
-    <GridForm
-      setParams={setParams}
-      filter={filter}
-      setFilter={setFilter}
-      hideButton={true}
-      className="lg:col-9 mb-4"
-    >
+    <GridForm setParams={setParams} filter={filter} setFilter={setFilter}>
       <Dropdownz
         value={filter?.project_id_ad}
         onChange={(e) => handleNodeChange(e)}
         options={data}
-        className="mt-2 col-4"
+        className="mt-2 col-2"
         placeholder="Chọn Page"
         optionLabel="name"
         optionValue="project_id_ad"
         filter
-        clearIcon={false}
+        showClear={false}
+        style={{ lineHeight: "30px" }}
+      ></Dropdownz>
+      <Dropdownz
+        value={filter?.department_id}
+        onChange={(e) => handleDepartChange(e)}
+        options={list_department}
+        className="mt-2 col-5"
+        placeholder="Chọn phòng ban"
+        optionLabel="gb_title"
+        optionValue="gb_id"
+        filter
+        showClear={false}
         style={{ lineHeight: "30px" }}
       ></Dropdownz>
     </GridForm>
@@ -51,6 +70,11 @@ const Divide = () => {
   const initParam = useGetParams();
   const [params, setParams] = useState(initParam);
   const [filter, setFilter] = useState();
+  const a = useGetPbIdByDate({
+    id_form: "462776942749951",
+    date: 16,
+    month: "04-2024",
+  });
   const dispatch = useDispatch();
   // const project = JSON.parse(localStorage.getItem("item"));
   const list_lead = useListLead({
@@ -73,7 +97,7 @@ const Divide = () => {
       dispatch(
         setToast({
           ...listToast[1],
-          detail: "Vui lòng chọn khách hàng trước khi duyệt!",
+          detail: "Vui lòng chọn khách hàng trước !",
         })
       );
       return;
@@ -126,7 +150,7 @@ const Divide = () => {
           />
         )}
         <DataTablez
-          title="phê duyệt"
+          title="thông tin khách hàng"
           value={list_lead}
           totalRecords={totalRecords}
           params={params}

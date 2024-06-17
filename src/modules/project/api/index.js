@@ -22,10 +22,14 @@ export const getListFormPage = (params) =>
 export const getListAssignDate = (params) =>
   getData("web/form_page/getListAssignDate", params);
 export const listCampaign = (params) =>
-  getData("web/campaign/listCampaign", params);
+  getData("web/project/listCampaign", params);
 export const getCheckId = (params) =>
   getData("web/form_page/getCheckId", params);
 export const updateProjectCampaign = (params) =>
-  postData("/web/campaign/updateProjectCampaign", params);
+  postData("/web/project/updateProjectCampaign", params);
 export const assignDateSingle = (params) =>
   postData("/web/form_page/assignDateSingle", params);
+export const getPbIdByDate = (params) =>
+  getData("/web/assigndate/getPbIdByDate", params);
+export const UpdateInsertLeads = (params) =>
+  postData("/web/lead/UpdateInsertLeads", params);

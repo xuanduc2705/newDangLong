@@ -84,7 +84,7 @@ const PageList = () => {
   const [campaignName, setCampaignName] = useState();
   const handleShow = (page, form, project_id, id) => {
     setShowDialog(true);
-    setCampaignName(`${getPageName(page)} - ${form}`);
+    setCampaignName(`${page} - ${form}`);
     setInfos({ ...infos, project_id: project_id, id: id });
   };
   const list_projectForm = useListProjectForm();
@@ -135,7 +135,7 @@ const PageList = () => {
           setParams={setParams}
         >
           <Columnz field="id_form" header="Mã chiến dịch" />
-          <Columnz header="Tên page" body={(e) => getPageName(e.page_id)} />
+          <Columnz header="Tên page" field="name" />
           <Columnz
             header="Dự án"
             body={(e) => (
@@ -145,7 +145,7 @@ const PageList = () => {
                   className="pi pi-file-edit"
                   style={{ fontSize: "1.4rem", color: "#2cc0da" }}
                   onClick={() =>
-                    handleShow(e.page_id, e.id_form, e.project_id, e.id)
+                    handleShow(e.name, e.id_form, e.project_id, e.id)
                   }
                 ></i>
               </div>
